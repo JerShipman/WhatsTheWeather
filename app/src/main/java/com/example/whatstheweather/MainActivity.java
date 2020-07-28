@@ -1,8 +1,12 @@
 package com.example.whatstheweather;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     TextView maxTextView;
     Button submitButton;
     DownloadTask task;
+    LocationManager locationManager;
 
     String currZip;
     double currentTemp;
@@ -49,29 +54,39 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void getUserLocation(View view){
+        try {
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, this);
+        }
+        catch(SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public int convertToF(double k){
         int returnF = (int) ((k - 273.15)*9/5 + 32);
         return returnF;
     }
 
 
-    public void changeCity(View view){
+    public void changeCity(View view) {
         cityTextView.setVisibility(View.INVISIBLE);
         zipCodeTextView.setVisibility(View.VISIBLE);
+        zipCodeTextView.setText(currZip);
         submitButton.setVisibility(View.VISIBLE);
-        zipCodeTextView.setText("");
-
     }
+
     public void submitZip(View view){
+        closeKeyboard();
         if(zipCodeTextView.getText().length() > 4){
-            closeKeyboard();
             currZip = zipCodeTextView.getText().toString();
             zipCodeTextView.setVisibility(View.INVISIBLE);
             cityTextView.setVisibility(View.VISIBLE);
             submitButton.setVisibility(View.INVISIBLE);
             task = new DownloadTask();
             task.execute("https://api.openweathermap.org/data/2.5/weather?zip="+currZip+"&appid=f7397aca7a9bbd3ed18cd930c6f9e5df");
-
         }
     }
 
@@ -82,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
             cityTextView.setText(city);
             minTextView.setText(String.valueOf(convertToF(min)));
             maxTextView.setText(String.valueOf(convertToF(max)));
-
     }
 
     @Override
@@ -99,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         currentConditionsTextView = findViewById(R.id.currentConditionsTextView);
         cityTextView.setVisibility(View.INVISIBLE);
         description = "";
-
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
     }
 

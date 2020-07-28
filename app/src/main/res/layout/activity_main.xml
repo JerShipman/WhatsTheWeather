@@ -18,7 +18,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.354"
-        app:srcCompat="@drawable/background" />
+        app:srcCompat="@drawable/background"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/forcTextView"
@@ -38,15 +39,15 @@
         android:id="@+id/forcTextView3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="42dp"
+        android:layout_marginRight="42dp"
         android:layout_marginBottom="356dp"
         android:text="F"
         android:textColor="#FFFFFF"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/minTextView" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/forcTextView2"
@@ -66,15 +67,15 @@
         android:id="@+id/forcTextView4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginRight="50dp"
         android:layout_marginBottom="200dp"
         android:text="F"
         android:textColor="#FFFFFF"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/maxTextView" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/tempTextView"
@@ -94,14 +95,14 @@
         android:id="@+id/minTextView"
         android:layout_width="wrap_content"
         android:layout_height="106dp"
-        android:layout_marginStart="260dp"
-        android:layout_marginLeft="260dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginBottom="312dp"
         android:text="00"
         android:textColor="#FFFFFF"
         android:textSize="75sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/forcTextView3"
         tools:visibility="visible" />
 
     <TextView
@@ -122,14 +123,14 @@
         android:id="@+id/maxTextView"
         android:layout_width="wrap_content"
         android:layout_height="106dp"
-        android:layout_marginStart="115dp"
-        android:layout_marginLeft="115dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
         android:layout_marginBottom="148dp"
         android:text="00"
         android:textColor="#FFFFFF"
         android:textSize="75sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/forcTextView2"
+        app:layout_constraintEnd_toStartOf="@+id/forcTextView4"
         tools:visibility="visible" />
 
     <TextView
@@ -198,10 +199,9 @@
         android:autoText="false"
         android:ems="10"
         android:gravity="center"
-        android:hint="ZIP"
+        android:hint="zip"
         android:inputType="number"
         android:maxLength="5"
-        android:onClick="submitZip"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
         android:textColorLink="#FFFFFF"
@@ -224,7 +224,7 @@
         android:autoText="false"
         android:gravity="center"
         android:onClick="changeCity"
-        android:text="TULSA"
+        android:text="City"
         android:textColor="#FFFFFF"
         android:textIsSelectable="false"
         android:textSize="65sp"
