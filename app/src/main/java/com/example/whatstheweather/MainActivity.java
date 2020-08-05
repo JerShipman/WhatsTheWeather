@@ -1,12 +1,9 @@
 package com.example.whatstheweather;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     TextView maxTextView;
     Button submitButton;
     DownloadTask task;
-    LocationManager locationManager;
+    SharedPreferences sharedPreferences;
 
     String currZip;
     double currentTemp;
@@ -46,6 +43,15 @@ public class MainActivity extends AppCompatActivity {
     String city;
     String description;
 
+    public void saveZipForLater(){
+        sharedPreferences.edit().putString("zip", currZip.toString()).apply();
+        sharedPreferences.edit().putString("currentTemp", Double.toString(currentTemp)).apply();
+        sharedPreferences.edit().putString("feelsLike", Double.toString(feelsLike)).apply();
+        sharedPreferences.edit().putString("min", Double.toString(min)).apply();
+        sharedPreferences.edit().putString("max", Double.toString(max)).apply();
+    }
+
+
     private void closeKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {
@@ -53,17 +59,6 @@ public class MainActivity extends AppCompatActivity {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
-
-    public void getUserLocation(View view){
-        try {
-            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, this);
-        }
-        catch(SecurityException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     public int convertToF(double k){
         int returnF = (int) ((k - 273.15)*9/5 + 32);
@@ -88,7 +83,9 @@ public class MainActivity extends AppCompatActivity {
             task = new DownloadTask();
             task.execute("https://api.openweathermap.org/data/2.5/weather?zip="+currZip+"&appid=f7397aca7a9bbd3ed18cd930c6f9e5df");
         }
+        saveZipForLater();
     }
+
 
     public void changeText(){
             tempTextView.setText(String.valueOf(convertToF(currentTemp)));
@@ -98,6 +95,25 @@ public class MainActivity extends AppCompatActivity {
             minTextView.setText(String.valueOf(convertToF(min)));
             maxTextView.setText(String.valueOf(convertToF(max)));
     }
+    //  sharedPreferences.edit().putString("currentTemp", Double.toString(currentTemp)).apply();
+    //        sharedPreferences.edit().putString("feelsLike", Double.toString(feelsLike)).apply();
+    //        sharedPreferences.edit().putString("min", Double.toString(min)).apply();
+    //        sharedPreferences.edit().putString("max", Double.toString(max)).apply();
+
+    public void updateFromLastSave(){
+        currZip = sharedPreferences.getString("zip", "75001");
+        feelsLike = Double.parseDouble(sharedPreferences.getString("feelsLike", "0"));
+        currentTemp = Double.parseDouble(sharedPreferences.getString("currentTemp", "0"));
+        min = Double.parseDouble(sharedPreferences.getString("min", "0"));
+        max = Double.parseDouble(sharedPreferences.getString("max", "0"));
+        zipCodeTextView.setVisibility(View.INVISIBLE);
+        cityTextView.setVisibility(View.VISIBLE);
+        submitButton.setVisibility(View.INVISIBLE);
+        task = new DownloadTask();
+        task.execute("https://api.openweathermap.org/data/2.5/weather?zip="+currZip+"&appid=f7397aca7a9bbd3ed18cd930c6f9e5df");
+        changeText();
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,8 +129,8 @@ public class MainActivity extends AppCompatActivity {
         currentConditionsTextView = findViewById(R.id.currentConditionsTextView);
         cityTextView.setVisibility(View.INVISIBLE);
         description = "";
-        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
+        sharedPreferences = this.getSharedPreferences("com.example.whatstheweather", Context.MODE_PRIVATE);
+        updateFromLastSave();
     }
 
     public class DownloadTask extends AsyncTask<String, Void, String>{
