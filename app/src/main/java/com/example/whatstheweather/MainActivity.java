@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -81,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             cityTextView.setVisibility(View.VISIBLE);
             submitButton.setVisibility(View.INVISIBLE);
             task = new DownloadTask();
-            task.execute("https://api.openweathermap.org/data/2.5/weather?zip="+currZip+"&appid=f7397aca7a9bbd3ed18cd930c6f9e5df");
+            task.execute("https://api.openweathermap.org/data/2.5/weather?zip="+currZip+"&appid=9209743f1d245e07419cbde41fb9fb94");
         }
         saveZipForLater();
     }
@@ -110,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         cityTextView.setVisibility(View.VISIBLE);
         submitButton.setVisibility(View.INVISIBLE);
         task = new DownloadTask();
-        task.execute("https://api.openweathermap.org/data/2.5/weather?zip="+currZip+"&appid=f7397aca7a9bbd3ed18cd930c6f9e5df");
+        task.execute("https://api.openweathermap.org/data/2.5/weather?zip="+currZip+"&appid=9209743f1d245e07419cbde41fb9fb94");
         changeText();
     }
 
