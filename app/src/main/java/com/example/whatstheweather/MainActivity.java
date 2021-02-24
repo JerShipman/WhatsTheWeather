@@ -80,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
             cityTextView.setVisibility(View.VISIBLE);
             submitButton.setVisibility(View.INVISIBLE);
             task = new DownloadTask();
-            task.execute("https://api.openweathermap.org/data/2.5/weather?zip="+currZip+"&appid=9209743f1d245e07419cbde41fb9fb94");
+            String APIKEY = "PUT YOUR API KEY HERE FOR OPEN WEATHER MAP"
+            task.execute("https://api.openweathermap.org/data/2.5/weather?zip="+currZip+"&appid="+ APIKEY);
         }
         saveZipForLater();
     }
